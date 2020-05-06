@@ -1,17 +1,67 @@
 name: ESGI Micro CI Scheduler
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - 'v*.*.*'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run lint
+      uses: actions-contrib/golangci-lint@v1
+
+  tests:
+    name: Unit and integrations tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12.2
+        env:
+          POSTGRES_USER: goyave
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: goyave
+        ports:
+        - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-go@v2
+      with:
+        go-version: 1.14
+    - name: Run tests
+      run: |
+        go test -v -race ./...
+
   build:
     name: Build Micro CI Scheduler Project
     runs-on: ubuntu-latest
+    needs: tests
 
     steps:
-    - name: Checkout Project
-      uses: actions/checkout@v1
-
-    # Add your build steps here
+    - uses: actions/checkout@v1
+    - uses: actions/setup-go@v2
+      with:
+        go-version: 1.14
+    - name: Build
+      run: |
+        go build -ldflags "-w -s"
+    - name: Upload executable artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: micro-ci-scheduler
+        path: micro-ci-scheduler
 
   # Uncomment and replace {userName} by your account folder name
   # deploy:
