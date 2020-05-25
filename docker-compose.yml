@@ -1,0 +1,35 @@
+version: '3'
+services:
+    api:
+        build: .
+        restart: always
+        networks:
+            - goyave-backend
+        ports:
+            - '8080:8080'
+        depends_on:
+          postgres:
+            condition: service_healthy
+        volumes:
+            - .:/app
+    postgres:
+        image: postgres
+        environment:
+            POSTGRES_USER=goyave
+            POSTGRES_PASSWORD=secret
+            POSTGRES_DB=goyave
+        networks:
+            - goyave-backend
+        restart: on-failure
+        volumes:
+            - databaseVolume:/var/lib/postgresql/data/
+        healthcheck:
+            test: ["CMD", 'pg_isready -U postgres'] 
+            interval: 10s
+            timeout: 10s
+            retries: 20                
+volumes:
+    databaseVolume: {}
+networks:
+    goyave-backend:
+        driver: bridge
