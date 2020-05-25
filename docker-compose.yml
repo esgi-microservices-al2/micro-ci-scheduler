@@ -8,16 +8,15 @@ services:
         ports:
             - '8080:8080'
         depends_on:
-          postgres:
-            condition: service_healthy
+            - postgres
         volumes:
             - .:/app
     postgres:
         image: postgres
         environment:
-            POSTGRES_USER=goyave
-            POSTGRES_PASSWORD=secret
-            POSTGRES_DB=goyave
+            POSTGRES_USER: goyave
+            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: goyave
         networks:
             - goyave-backend
         restart: on-failure
