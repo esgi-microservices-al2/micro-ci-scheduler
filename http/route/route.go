@@ -8,6 +8,7 @@ import (
 
 	"github.com/System-Glitch/goyave/v2"
 	"github.com/System-Glitch/goyave/v2/cors"
+	"github.com/System-Glitch/goyave/v2/log"
 )
 
 // Routing is an essential part of any Goyave application.
@@ -24,6 +25,7 @@ func Register(router *goyave.Router) {
 	// Applying default CORS settings (allow all methods and all origins)
 	// Learn more about CORS options here: https://system-glitch.github.io/goyave/guide/advanced/cors.html
 	router.CORS(cors.Default())
+	router.Middleware(log.CombinedLogMiddleware())
 
 	// Register your routes here
 
@@ -32,11 +34,10 @@ func Register(router *goyave.Router) {
 
 	// Route with validation
 	router.Route("GET", "/echo", hello.Echo, echorequest.Echo)
-	
+
 	router.Get("/job", job.Index, nil)
 	router.Get("/job/{id:[0-9]+}", job.Show, nil)
 	router.Post("/job", job.Store, jobrequest.Store)
 	router.Put("/job/{id:[0-9]+}", job.Update, jobrequest.Store)
 	router.Delete("/job/{id:[0-9]+}", job.Destroy, nil)
 }
-

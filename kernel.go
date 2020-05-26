@@ -1,11 +1,11 @@
 package main
 
 import (
+	"micro-ci-scheduler/cron"
 	_ "micro-ci-scheduler/http/request"
 	"micro-ci-scheduler/http/route"
 
 	"github.com/System-Glitch/goyave/v2"
-	"fmt"
 	// Import the approriate GORM dialect for the database you're using.
 	// _ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -20,8 +20,10 @@ func main() {
 	// websocket server, you'll need to run Goyave in a routine.
 	// See: https://system-glitch.github.io/goyave/guide/advanced/multi-services.html
 
+	goyave.Logger.Println("Starting HTTP server...")
 	goyave.RegisterStartupHook(func() {
-		fmt.Println("Started")
+		cron.Start()
+		goyave.Logger.Println("Ready.")
 	})
 
 	goyave.Start(route.Register)

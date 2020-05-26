@@ -1,6 +1,7 @@
 package job
 
 import (
+	"micro-ci-scheduler/cron"
 	"micro-ci-scheduler/database/model"
 	"net/http"
 	"strconv"
@@ -36,6 +37,7 @@ func Store(response *goyave.Response, request *goyave.Request) {
 		response.Error(err)
 	} else {
 		response.JSON(http.StatusCreated, map[string]uint{"id": job.ID})
+		cron.Restart()
 	}
 }
 
@@ -45,10 +47,17 @@ func Update(response *goyave.Response, request *goyave.Request) {
 	db := database.GetConnection()
 	result := db.Select("id").First(&job, id)
 	if response.HandleDatabaseError(result) {
-		if err := db.Model(&job).Update("name", request.String("name")).Error; err != nil {
+		data := map[string]interface{}{
+			"name":            request.String("name"),
+			"cron_expression": request.String("cronexpression"),
+			"id_project":      request.Integer("idproject"),
+		}
+		if err := db.Model(&job).Updates(data).Error; err != nil {
 			response.Error(err)
+			return
 		}
 	}
+	cron.Restart()
 }
 
 func Destroy(response *goyave.Response, request *goyave.Request) {
@@ -59,6 +68,8 @@ func Destroy(response *goyave.Response, request *goyave.Request) {
 	if response.HandleDatabaseError(result) {
 		if err := db.Delete(&job).Error; err != nil {
 			response.Error(err)
+			return
 		}
 	}
+	cron.Restart()
 }
