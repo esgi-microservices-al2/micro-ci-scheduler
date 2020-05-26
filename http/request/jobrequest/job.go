@@ -8,4 +8,5 @@ var (
 		"name":           {"required", "string", "max:255"},
 		"idproject":      {"required", "integer", "min:1"},
 	}
+
 )

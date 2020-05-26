@@ -32,6 +32,11 @@ func Register(router *goyave.Router) {
 
 	// Route with validation
 	router.Route("GET", "/echo", hello.Echo, echorequest.Echo)
-
+	
+	router.Get("/job", job.Index, nil)
+	router.Get("/job/{id:[0-9]+}", job.Show, nil)
 	router.Post("/job", job.Store, jobrequest.Store)
+	router.Put("/job/{id:[0-9]+}", job.Update, jobrequest.Store)
+	router.Delete("/job/{id:[0-9]+}", job.Destroy, nil)
 }
+
