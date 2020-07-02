@@ -2,10 +2,16 @@ package cron
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"micro-ci-scheduler/database/model"
+	"net/http"
+	"net/url"
+	"strconv"
 	"sync"
+	"time"
 
 	"github.com/System-Glitch/goyave/v2"
+	"github.com/System-Glitch/goyave/v2/config"
 	"github.com/System-Glitch/goyave/v2/database"
 	"github.com/robfig/cron"
 )
@@ -50,5 +56,24 @@ func Restart() {
 func job(jobID int) func() {
 	return func() {
 		goyave.Logger.Printf("Execute %d\n", jobID)
+		id := strconv.Itoa(jobID)
+		client := &http.Client{
+			Timeout: time.Second * 10,
+		}
+		resp, err := client.PostForm(config.GetString("service-project-host")+"/api/v1/builds/"+id, url.Values{})
+		if err != nil {
+			goyave.ErrLogger.Println(err, "Job #"+id)
+			return
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode != http.StatusOK {
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				goyave.ErrLogger.Printf("ERROR Job #%d: status %d\n", jobID, resp.StatusCode)
+			} else {
+				goyave.ErrLogger.Printf("ERROR Job #%d: status %d, %q\n", jobID, resp.StatusCode, string(body))
+			}
+		}
 	}
 }

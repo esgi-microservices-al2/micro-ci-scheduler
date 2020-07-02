@@ -23,5 +23,6 @@
     "dbMaxOpenConnections": 20,
     "dbMaxIdleConnections": 20,
     "dbMaxLifetime": 300,
-    "dbAutoMigrate": true
+    "dbAutoMigrate": true,
+    "service-project-host": "http://localhost:8081"
 }
