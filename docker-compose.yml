@@ -9,8 +9,22 @@ services:
             - '8080:8080'
         depends_on:
             - postgres
+            - rabbitmq
         volumes:
             - .:/app
+    rabbitmq:
+        image: rabbitmq:3-management
+        restart: on-failure
+        networks:
+            - goyave-backend
+        ports:
+            - '5672:5672'
+            - '15672:15672'
+        healthcheck:
+            test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+            interval: 5s
+            timeout: 10s
+            retries: 10
     postgres:
         image: postgres
         environment:
@@ -24,7 +38,7 @@ services:
             - databaseVolume:/var/lib/postgresql/data/
         healthcheck:
             test: ["CMD", 'pg_isready -U postgres'] 
-            interval: 10s
+            interval: 5s
             timeout: 10s
             retries: 20                
 volumes:

@@ -4,13 +4,10 @@ import (
 	"micro-ci-scheduler/cron"
 	_ "micro-ci-scheduler/http/request"
 	"micro-ci-scheduler/http/route"
+	"micro-ci-scheduler/rabbit"
 
 	"github.com/System-Glitch/goyave/v2"
-	// Import the approriate GORM dialect for the database you're using.
-	// _ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
-	// _ "github.com/jinzhu/gorm/dialects/sqlite"
-	// _ "github.com/jinzhu/gorm/dialects/mssql"
 )
 
 func main() {
@@ -22,9 +19,12 @@ func main() {
 
 	goyave.Logger.Println("Starting HTTP server...")
 	goyave.RegisterStartupHook(func() {
+		rabbit.Connect()
 		cron.Start()
 		goyave.Logger.Println("Ready.")
 	})
 
 	goyave.Start(route.Register)
+	cron.Stop()
+	rabbit.Stop()
 }

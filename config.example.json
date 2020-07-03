@@ -24,5 +24,9 @@
     "dbMaxIdleConnections": 20,
     "dbMaxLifetime": 300,
     "dbAutoMigrate": true,
-    "service-project-host": "http://localhost:8081"
+    "service-project-host": "http://localhost:8081",
+    "rabbitHost": "rabbitmq",
+    "rabbitPort": 5672,
+    "rabbitUser": "guest",
+    "rabbitPassword": "guest"
 }
