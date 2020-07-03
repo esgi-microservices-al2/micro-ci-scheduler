@@ -1,9 +1,7 @@
 package route
 
 import (
-	"micro-ci-scheduler/http/controller/hello"
 	"micro-ci-scheduler/http/controller/job"
-	"micro-ci-scheduler/http/request/echorequest"
 	"micro-ci-scheduler/http/request/jobrequest"
 
 	"github.com/System-Glitch/goyave/v2"
@@ -28,12 +26,6 @@ func Register(router *goyave.Router) {
 	router.Middleware(log.CombinedLogMiddleware())
 
 	// Register your routes here
-
-	// Route without validation
-	router.Route("GET", "/hello", hello.SayHi, nil)
-
-	// Route with validation
-	router.Route("GET", "/echo", hello.Echo, echorequest.Echo)
 
 	router.Get("/job", job.Index, nil)
 	router.Get("/job/{id:[0-9]+}", job.Show, nil)
