@@ -13,7 +13,7 @@ import (
 
 const (
 	// QueueName the name of the AMQP queue used for message delivery.
-	QueueName string = "scheduler"
+	QueueName string = "al2.scheduler"
 )
 
 var (
