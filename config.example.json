@@ -29,4 +29,5 @@
     "rabbitPort": 5672,
     "rabbitUser": "guest",
     "rabbitPassword": "guest"
+
 }

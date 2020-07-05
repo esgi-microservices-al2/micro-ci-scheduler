@@ -1,6 +1,7 @@
 package main
 
 import (
+	"micro-ci-scheduler/consul"
 	"micro-ci-scheduler/cron"
 	_ "micro-ci-scheduler/http/request"
 	"micro-ci-scheduler/http/route"
@@ -19,12 +20,19 @@ func main() {
 
 	goyave.Logger.Println("Starting HTTP server...")
 	goyave.RegisterStartupHook(func() {
+		var credential consul.AuthenticationCredentials
+		credential.Host = "127.0.0.1"
+		credential.Token = ""
+
 		rabbit.Connect()
 		cron.Start()
+		consul.SetConfiguration(credential)
+		consul.Register()
 		goyave.Logger.Println("Ready.")
 	})
 
 	goyave.Start(route.Register)
 	cron.Stop()
 	rabbit.Stop()
+	consul.UnRegiter()
 }
