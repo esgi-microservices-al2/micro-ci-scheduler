@@ -13,7 +13,7 @@ import (
 
 const (
 	// QueueName the name of the AMQP queue used for message delivery.
-	QueueName string = "scheduler"
+	QueueName string = "al2.scheduler"
 )
 
 var (
@@ -33,8 +33,9 @@ func Connect() {
 
 	if err != nil {
 		goyave.ErrLogger.Println(err, "Failed to open AMQP connection")
-		// TODO reconnect on failure
 		mu.Unlock()
+		time.Sleep(5 * time.Second)
+		Connect()
 		return
 	}
 

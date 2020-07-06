@@ -10,6 +10,7 @@ services:
         depends_on:
             - postgres
             - rabbitmq
+            - consul
         volumes:
             - .:/app
     rabbitmq:
@@ -25,6 +26,21 @@ services:
             interval: 5s
             timeout: 10s
             retries: 10
+
+    consul:
+        image: consul
+        restart: on-failure
+        networks: 
+            - goyave-backend
+        ports: 
+            - '8500:8500'
+            - '8600:8600'
+        healthcheck:
+            test: [ "CMD", "nc", "-z", "localhost", "8500" ]
+            interval: 5s
+            timeout: 10s
+            retries: 10
+
     postgres:
         image: postgres
         environment:

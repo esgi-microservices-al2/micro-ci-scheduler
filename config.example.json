@@ -28,5 +28,8 @@
     "rabbitHost": "rabbitmq",
     "rabbitPort": 5672,
     "rabbitUser": "guest",
-    "rabbitPassword": "guest"
+    "rabbitPassword": "guest",
+    "consulHost": "consul:8500",
+    "consulToken": ""
+
 }
