@@ -43,7 +43,7 @@ func SetConfiguration(credential AuthenticationCredentials) {
 	client, err = api.NewClient(configuration)
 
 	if err != nil {
-		goyave.ErrLogger.Println(err, "Failed to instanciate new consul Client")
+		goyave.ErrLogger.Println(err, "Failed to instantiate new consul Client")
 		return
 	}
 
@@ -56,7 +56,7 @@ func SetConfiguration(credential AuthenticationCredentials) {
 
 func Start() {
 	if client == nil {
-		goyave.ErrLogger.Println("Failed to unregister the service, no client instanciate")
+		goyave.ErrLogger.Println("Failed to unregister the service, no client instantiate")
 		return
 	}
 
@@ -82,12 +82,12 @@ func Start() {
 
 func Stop() {
 	if client == nil {
-		goyave.ErrLogger.Println("Failed to unregister the service, no client instanciate")
+		goyave.ErrLogger.Println("Failed to unregister the service, no client instantiate")
 		return
 	}
 
 	if clientAgent == nil {
-		goyave.ErrLogger.Println("Failed to unregister the service, no agent instanciate")
+		goyave.ErrLogger.Println("Failed to unregister the service, no agent instantiate")
 		return
 	}
 
