@@ -8,6 +8,7 @@ import (
 	"micro-ci-scheduler/rabbit"
 
 	"github.com/System-Glitch/goyave/v2"
+	"github.com/System-Glitch/goyave/v2/config"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
@@ -21,18 +22,18 @@ func main() {
 	goyave.Logger.Println("Starting HTTP server...")
 	goyave.RegisterStartupHook(func() {
 		var credential consul.AuthenticationCredentials
-		credential.Host = "127.0.0.1"
-		credential.Token = ""
+		credential.Host = config.GetString("consulHost")
+		credential.Token = config.GetString("consulToken")
 
 		rabbit.Connect()
 		cron.Start()
 		consul.SetConfiguration(credential)
-		consul.Register()
+		consul.Start()
 		goyave.Logger.Println("Ready.")
 	})
 
 	goyave.Start(route.Register)
 	cron.Stop()
 	rabbit.Stop()
-	consul.UnRegiter()
+	consul.Stop()
 }

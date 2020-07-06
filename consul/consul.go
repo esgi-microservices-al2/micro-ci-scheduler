@@ -1,8 +1,8 @@
 package consul
 
 import (
+	"fmt"
 	"log"
-	"strconv"
 	"time"
 
 	"github.com/System-Glitch/goyave/v2"
@@ -22,8 +22,8 @@ type Service struct {
 }
 
 const (
-	id   string = "al2.scheduler"
-	name string = "al2.scheduler"
+	id   string = "al2-scheduler"
+	name string = "al2-scheduler"
 )
 
 var (
@@ -34,26 +34,27 @@ var (
 
 func SetConfiguration(credential AuthenticationCredentials) {
 	// Set config
-	var configuration = api.DefaultConfig()
+	configuration := api.DefaultConfig()
 	configuration.Address = credential.Host
 	configuration.Token = credential.Token
 
 	// Create client
-	client, error := api.NewClient(configuration)
+	var err error
+	client, err = api.NewClient(configuration)
 
-	if error != nil {
-		goyave.ErrLogger.Println(error, "Failed to instanciate new consul Client")
+	if err != nil {
+		goyave.ErrLogger.Println(err, "Failed to instanciate new consul Client")
 		return
 	}
 
 	// Set service data
 	service.ID = id
 	service.Name = name
-	service.Tags = []string{"al2.scheduler"}
-	service.CheckTime = time.Second * 10
+	service.Tags = []string{id}
+	service.CheckTime = time.Second * 30
 }
 
-func Register() {
+func Start() {
 	if client == nil {
 		goyave.ErrLogger.Println("Failed to unregister the service, no client instanciate")
 		return
@@ -63,23 +64,23 @@ func Register() {
 		ID:   service.Name,
 		Name: service.Name,
 		Check: &api.AgentServiceCheck{
-			TTL: strconv.FormatFloat(service.CheckTime.Seconds(), 'f', -1, 64),
+			TTL: fmt.Sprintf("%fs", service.CheckTime.Seconds()),
 		},
 	}
 
 	clientAgent = client.Agent()
 
-	var error = clientAgent.ServiceRegister(serviceRegisterConfiguration)
+	var err = clientAgent.ServiceRegister(serviceRegisterConfiguration)
 
-	if error != nil {
-		goyave.ErrLogger.Println(error, "Failed cannot register service")
+	if err != nil {
+		goyave.ErrLogger.Println(err, "Failed cannot register consul service")
 		return
 	}
 
 	service.updateTTL()
 }
 
-func UnRegiter() {
+func Stop() {
 	if client == nil {
 		goyave.ErrLogger.Println("Failed to unregister the service, no client instanciate")
 		return
@@ -90,10 +91,10 @@ func UnRegiter() {
 		return
 	}
 
-	var error = clientAgent.ServiceDeregister(service.ID)
+	var err = clientAgent.ServiceDeregister(service.ID)
 
-	if error != nil {
-		goyave.ErrLogger.Println(error, "Failed to deregister service")
+	if err != nil {
+		goyave.ErrLogger.Println(err, "Failed to deregister service")
 	}
 }
 
