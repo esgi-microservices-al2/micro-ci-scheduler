@@ -1,0 +1,46 @@
+FROM golang:alpine as builder
+
+WORKDIR /app
+
+COPY . .
+
+ARG RABBIT_MQ_USERNAME=
+ARG RABBIT_MQ_HOSTNAME=
+ARG RABBIT_MQ_PASSWORD=
+ARG RABBIT_MQ_PORT=
+ARG CONSUL_HOSTNAME=
+ARG CONSUL_TOKEN=
+ARG DB_HOSTNAME=
+ARG DB_PORT=
+ARG DB_USERNAME=
+ARG DB_PASSWORD=
+ARG DB_NAME=
+
+ENV RABBIT_MQ_USERNAME $RABBIT_MQ_USERNAME
+ENV RABBIT_MQ_HOSTNAME $RABBIT_MQ_HOSTNAME
+ENV RABBIT_MQ_PASSWORD $RABBIT_MQ_PASSWORD
+ENV RABBIT_MQ_PORT $RABBIT_MQ_PORT
+ENV CONSUL_HOSTNAME $CONSUL_HOSTNAME
+ENV CONSUL_TOKEN $CONSUL_TOKEN
+ENV DB_HOSTNAME $DB_HOSTNAME
+ENV DB_PORT $DB_PORT
+ENV DB_USERNAME $DB_USERNAME
+ENV DB_PASSWORD $DB_PASSWORD
+ENV DB_NAME $DB_NAME 
+
+RUN go build -ldflags "-w -s"
+RUN apk update && apk add --no-cache gettext
+RUN /bin/sh -c '/usr/bin/envsubst < config.production.json > config.production.json.tmp'
+
+FROM alpine:3.9
+
+WORKDIR /app
+
+COPY --from=builder /app/micro-ci-scheduler ./micro-ci-scheduler
+COPY resources /app/resources
+COPY --from=builder /app/config.production.json.tmp ./config.production.json
+
+EXPOSE 80
+ENV GOYAVE_ENV=production
+
+ENTRYPOINT [ "./micro-ci-scheduler" ]
