@@ -50,7 +50,7 @@ func SetConfiguration(credential AuthenticationCredentials) {
 	// Set service data
 	service.ID = id
 	service.Name = name
-	service.Tags = []string{id}
+	service.Tags = []string{id, "traefik.enable=true", "traefik.frontend.entryPoints=http"}
 	service.CheckTime = time.Second * 30
 }
 
