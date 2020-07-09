@@ -50,7 +50,5 @@ jobs:
           export DB_PASSWORD='${{secrets.DB_PASSWORD}}' && \
           export DB_NAME='${{secrets.DB_NAME}}' && \ 
           wget -q https://raw.githubusercontent.com/esgi-microservices-al2/micro-ci-scheduler/master/.github/azure/docker-compose.yml -O docker-compose.yml && \ 
-          docker-compose stop && \
-          docker-compose rm --force && \
           docker-compose pull && \
-          docker-compose up -d"
+          docker-compose up -d --force-recreate micro-ci-scheduler"
