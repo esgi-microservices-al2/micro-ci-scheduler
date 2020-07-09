@@ -6,7 +6,7 @@
     "debug": false,
     "dbConnection": "postgres",
     "dbHost": "$DB_HOSTNAME",
-    "dbPort": "$DB_PORT",
+    "dbPort": $DB_PORT,
     "dbName": "$DB_NAME",
     "dbUsername": "$DB_USERNAME",
     "dbPassword": "$DB_PASSWORD",
