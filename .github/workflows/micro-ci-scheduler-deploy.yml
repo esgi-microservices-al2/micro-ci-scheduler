@@ -22,7 +22,7 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: esgimicroci/al2-docker-runner
+        repository: esgimicroci/al2-scheduler
         tag_with_ref: true
         dockerfile: Dockerfile.prod
         build_args: RABBIT_MQ_HOSTNAME=${{ secrets.RABBIT_MQ_HOSTNAME }},RABBIT_MQ_USERNAME=${{ secrets.RABBIT_MQ_USERNAME }},RABBIT_MQ_PORT=${{ secrets.RABBIT_MQ_PORT }},RABBIT_MQ_PASSWORD=${{ secrets.RABBIT_MQ_PASSWORD }},CONSUL_HOSTNAME=${{ secrets.CONSUL_HOSTNAME }},DB_HOSTNAME=${{ secrets.DB_HOSTNAME }},DB_PORT=${{ secrets.DB_PORT }},DB_USERNAME=${{ secrets.DB_USERNAME }},DB_NAME=${{secrets.DB_NAME}},DB_PASSWORD=${{secrets.DB_PASSWORD}},CONSUL_TOKEN=${{secrets.CONSUL_TOKEN }}
