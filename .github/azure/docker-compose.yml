@@ -1,3 +1,36 @@
 version: '3'
-
 # Add your networks/volumes/services for your microservice
+
+services:
+    api:
+        build: .
+        restart: always
+        networks:
+            - goyave-backend
+        ports:
+            - '80:80'
+        depends_on:
+            - postgres
+        volumes:
+            - .:/app
+    postgres:
+        image: postgres
+        environment:
+            POSTGRES_USER: goyave
+            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: goyave
+        networks:
+            - goyave-backend
+        restart: always
+        volumes:
+            - databaseVolume:/var/lib/postgresql/data/
+        healthcheck:
+            test: ["CMD", 'pg_isready -U postgres'] 
+            interval: 5s
+            timeout: 10s
+            retries: 20                
+volumes:
+    databaseVolume: {}
+networks:
+    goyave-backend:
+        driver: bridge

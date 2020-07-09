@@ -1,0 +1,21 @@
+{
+    "appName": "micro-ci-scheduler",
+    "environment": "production",
+    "host": "0.0.0.0",
+    "port": 80,
+    "debug": false,
+    "dbConnection": "postgres",
+    "dbHost": "$DB_HOSTNAME",
+    "dbPort": "$DB_PORT",
+    "dbName": "$DB_NAME",
+    "dbUsername": "$DB_USERNAME",
+    "dbPassword": "$DB_PASSWORD",
+    "dbOptions": "sslmode=disable",
+    "dbAutoMigrate": true,
+    "rabbitHost": "$RABBIT_MQ_HOSTNAME",
+    "rabbitPort": "$RABBIT_MQ_PORT",
+    "rabbitUser": "$RABBIT_MQ_USERNAME",
+    "rabbitPassword": "$RABBIT_MQ_PASSWORD",
+    "consulHost": "$CONSUL_HOSTNAME",
+    "consulToken": "$CONSUL_TOKEN"
+}
