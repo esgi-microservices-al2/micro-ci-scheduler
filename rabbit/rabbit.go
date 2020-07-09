@@ -2,6 +2,7 @@ package rabbit
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 	"sync"
 	"time"
@@ -26,7 +27,7 @@ var (
 func Connect() {
 	goyave.Logger.Println("Starting AMQP")
 	mu.Lock()
-	connectionString := fmt.Sprintf("amqp://%s:%s@%s:%d/", config.GetString("rabbitUser"), config.GetString("rabbitPassword"), config.GetString("rabbitHost"), int(config.Get("rabbitPort").(float64)))
+	connectionString := fmt.Sprintf("amqp://%s:%s@%s:%d/", config.GetString("rabbitUser"), url.QueryEscape(config.GetString("rabbitPassword")), config.GetString("rabbitHost"), int(config.Get("rabbitPort").(float64)))
 
 	var err error
 	conn, err = amqp.Dial(connectionString)
