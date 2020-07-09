@@ -49,6 +49,7 @@ jobs:
           export DB_USERNAME='${{secrets.DB_USERNAME}}' && \
           export DB_PASSWORD='${{secrets.DB_PASSWORD}}' && \
           export DB_NAME='${{secrets.DB_NAME}}' && \ 
+          export API_IP='${{secrets.API_IP}}' && \
           wget -q https://raw.githubusercontent.com/esgi-microservices-al2/micro-ci-scheduler/master/.github/azure/docker-compose.yml -O docker-compose.yml && \ 
           docker-compose stop && \
           docker-compose rm --force && \

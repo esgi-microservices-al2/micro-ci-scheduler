@@ -17,5 +17,6 @@
     "rabbitUser": "$RABBIT_MQ_USERNAME",
     "rabbitPassword": "$RABBIT_MQ_PASSWORD",
     "consulHost": "$CONSUL_HOSTNAME",
-    "consulToken": "$CONSUL_TOKEN"
+    "consulToken": "$CONSUL_TOKEN",
+    "consulHostIp": "$API_IP"
 }

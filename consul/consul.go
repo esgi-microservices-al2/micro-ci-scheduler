@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/System-Glitch/goyave/v2"
+	"github.com/System-Glitch/goyave/v2/config"
 	"github.com/hashicorp/consul/api"
 )
 
@@ -61,9 +62,11 @@ func Start() {
 	}
 
 	var serviceRegisterConfiguration = &api.AgentServiceRegistration{
-		ID:   service.Name,
-		Name: service.Name,
-		Tags: service.Tags,
+		ID:      service.Name,
+		Name:    service.Name,
+		Tags:    service.Tags,
+		Address: config.GetString("consulHostIp"),
+		Port:    int(config.Get("port").(float64)),
 		Check: &api.AgentServiceCheck{
 			TTL: fmt.Sprintf("%fs", service.CheckTime.Seconds()),
 		},

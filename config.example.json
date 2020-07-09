@@ -29,6 +29,7 @@
     "rabbitUser": "guest",
     "rabbitPassword": "guest",
     "consulHost": "consul:8500",
-    "consulToken": ""
+    "consulToken": "",
+    "consulHostIp": "api"
 
 }
