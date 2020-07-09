@@ -38,17 +38,17 @@ jobs:
         inlineScript: |
           az vm run-command invoke -g ${{ secrets.AZURE_RESOURCE_GRP }} -n ${{ secrets.AZURE_VM }} --command-id RunShellScript --scripts \
           "cd ${{ secrets.FOLDER_PATH }} && \
-          export RABBIT_MQ_USERNAME=${{secrets.RABBIT_MQ_USERNAME}} && \
-          export RABBIT_MQ_HOSTNAME=${{secrets.RABBIT_MQ_HOSTNAME}} && \
-          export RABBIT_MQ_PASSWORD=${{secrets.RABBIT_MQ_PASSWORD}} && \
-          export RABBIT_MQ_PORT=${{secrets.RABBIT_MQ_PORT}} && \
-          export CONSUL_HOSTNAME=${{secrets.CONSUL_HOSTNAME}} && \
-          export CONSUL_TOKEN=${{secrets.CONSUL_TOKEN}} && \
-          export DB_HOSTNAME=${{secrets.DB_HOSTNAME}} && \
-          export DB_PORT=${{secrets.DB_PORT}} && \
-          export DB_USERNAME=${{secrets.DB_USERNAME}} && \
-          export DB_PASSWORD=${{secrets.DB_PASSWORD}} && \
-          export DB_NAME=${{secrets.DB_NAME}} && \ 
+          export RABBIT_MQ_USERNAME='${{secrets.RABBIT_MQ_USERNAME}}' && \
+          export RABBIT_MQ_HOSTNAME='${{secrets.RABBIT_MQ_HOSTNAME}}' && \
+          export RABBIT_MQ_PASSWORD='${{secrets.RABBIT_MQ_PASSWORD}}' && \
+          export RABBIT_MQ_PORT='${{secrets.RABBIT_MQ_PORT}}' && \
+          export CONSUL_HOSTNAME='${{secrets.CONSUL_HOSTNAME}}' && \
+          export CONSUL_TOKEN='${{secrets.CONSUL_TOKEN}}' && \
+          export DB_HOSTNAME='${{secrets.DB_HOSTNAME}}' && \
+          export DB_PORT='${{secrets.DB_PORT}}' && \
+          export DB_USERNAME='${{secrets.DB_USERNAME}}' && \
+          export DB_PASSWORD='${{secrets.DB_PASSWORD}}' && \
+          export DB_NAME='${{secrets.DB_NAME}}' && \ 
           wget -q https://raw.githubusercontent.com/esgi-microservices-al2/micro-ci-scheduler/master/.github/azure/docker-compose.yml -O docker-compose.yml && \ 
           docker-compose stop && \
           docker-compose rm && \
