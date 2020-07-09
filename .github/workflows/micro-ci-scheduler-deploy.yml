@@ -52,4 +52,5 @@ jobs:
           wget -q https://raw.githubusercontent.com/esgi-microservices-al2/micro-ci-scheduler/master/.github/azure/docker-compose.yml -O docker-compose.yml && \ 
           docker-compose stop && \
           docker-compose rm --force && \
+          docker-compose pull && \
           docker-compose up -d"
