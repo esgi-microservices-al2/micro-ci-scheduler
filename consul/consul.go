@@ -51,7 +51,7 @@ func SetConfiguration(credential AuthenticationCredentials) {
 	// Set service data
 	service.ID = id
 	service.Name = name
-	service.Tags = []string{id, "traefik.enable=true", "traefik.frontend.entryPoints=http", "traefik.frontend.rule=PathPrefix:/scheduler/"}
+	service.Tags = []string{id, "traefik.enable=true", "traefik.frontend.entryPoints=http", "traefik.frontend.rule=PathPrefixStrip:/scheduler/"}
 	service.CheckTime = time.Second * 30
 }
 
@@ -81,7 +81,7 @@ func Start() {
 		return
 	}
 
-	service.updateTTL()
+	go service.updateTTL()
 }
 
 func Stop() {
