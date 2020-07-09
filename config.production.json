@@ -13,7 +13,7 @@
     "dbOptions": "sslmode=disable",
     "dbAutoMigrate": true,
     "rabbitHost": "$RABBIT_MQ_HOSTNAME",
-    "rabbitPort": "$RABBIT_MQ_PORT",
+    "rabbitPort": $RABBIT_MQ_PORT,
     "rabbitUser": "$RABBIT_MQ_USERNAME",
     "rabbitPassword": "$RABBIT_MQ_PASSWORD",
     "consulHost": "$CONSUL_HOSTNAME",
