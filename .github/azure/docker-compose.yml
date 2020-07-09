@@ -2,8 +2,9 @@ version: '3'
 # Add your networks/volumes/services for your microservice
 
 services:
-    api:
-        build: .
+    micro-ci-scheduler:
+        image: esgimicroci/al2-scheduler
+        container_name: al2-scheduler
         restart: always
         networks:
             - goyave-backend
