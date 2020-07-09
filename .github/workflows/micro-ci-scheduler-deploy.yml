@@ -25,7 +25,7 @@ jobs:
         repository: esgimicroci/al2-scheduler
         tag_with_ref: true
         dockerfile: Dockerfile.prod
-        build_args: RABBIT_MQ_HOSTNAME=${{ secrets.RABBIT_MQ_HOSTNAME }},RABBIT_MQ_USERNAME=${{ secrets.RABBIT_MQ_USERNAME }},RABBIT_MQ_PORT=${{ secrets.RABBIT_MQ_PORT }},RABBIT_MQ_PASSWORD=${{ secrets.RABBIT_MQ_PASSWORD }},CONSUL_HOSTNAME=${{ secrets.CONSUL_HOSTNAME }},DB_HOSTNAME=${{ secrets.DB_HOSTNAME }},DB_PORT=${{ secrets.DB_PORT }},DB_USERNAME=${{ secrets.DB_USERNAME }},DB_NAME=${{secrets.DB_NAME}},DB_PASSWORD=${{secrets.DB_PASSWORD}},CONSUL_TOKEN=${{secrets.CONSUL_TOKEN }}
+        build_args: RABBIT_MQ_HOSTNAME=${{ secrets.RABBIT_MQ_HOSTNAME }},RABBIT_MQ_USERNAME=${{ secrets.RABBIT_MQ_USERNAME }},RABBIT_MQ_PORT=${{ secrets.RABBIT_MQ_PORT }},RABBIT_MQ_PASSWORD=${{ secrets.RABBIT_MQ_PASSWORD }},CONSUL_HOSTNAME=${{ secrets.CONSUL_HOSTNAME }},DB_HOSTNAME=${{ secrets.DB_HOSTNAME }},DB_PORT=${{ secrets.DB_PORT }},DB_USERNAME=${{ secrets.DB_USERNAME }},DB_NAME=${{secrets.DB_NAME}},DB_PASSWORD=${{secrets.DB_PASSWORD}},CONSUL_TOKEN=${{secrets.CONSUL_TOKEN }},API_IP=${{secrets.API_IP }}
 
     - name: Azure Login
       uses: azure/login@v1
