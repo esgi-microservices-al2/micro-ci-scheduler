@@ -17,9 +17,9 @@ services:
     postgres:
         image: postgres
         environment:
-            POSTGRES_USER: goyave
-            POSTGRES_PASSWORD: secret
-            POSTGRES_DB: goyave
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
         networks:
             - goyave-backend
         restart: always
