@@ -36,10 +36,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          az vm run-command invoke \
-          -g ${{ secrets.AZURE_RESOURCE_GRP }} \ 
-          -n ${{ secrets.AZURE_VM }} \
-          --command-id RunShellScript --scripts \
+          az vm run-command invoke -g ${{ secrets.AZURE_RESOURCE_GRP }} -n ${{ secrets.AZURE_VM }} --command-id RunShellScript --scripts \
           "cd ${{ secrets.FOLDER_PATH }} \
           && export RABBIT_MQ_USERNAME=${{secrets.RABBIT_MQ_USERNAME}} \
           && export RABBIT_MQ_HOSTNAME=${{secrets.RABBIT_MQ_HOSTNAME}} \
