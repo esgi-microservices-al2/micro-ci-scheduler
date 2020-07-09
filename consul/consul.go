@@ -63,6 +63,7 @@ func Start() {
 	var serviceRegisterConfiguration = &api.AgentServiceRegistration{
 		ID:   service.Name,
 		Name: service.Name,
+		Tags: service.Tags,
 		Check: &api.AgentServiceCheck{
 			TTL: fmt.Sprintf("%fs", service.CheckTime.Seconds()),
 		},
