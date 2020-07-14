@@ -112,3 +112,4 @@ You can support also me on Patreon:
 ## License
 
 The Goyave framework is MIT Licensed. Copyright © 2019 Jérémy LAMBERT (SystemGlitch)
+
